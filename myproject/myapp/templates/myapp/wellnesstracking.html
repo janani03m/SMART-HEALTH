@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Transactions</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/styles.css' %}">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: calc(100vh - 20px);
+            margin: 40px auto;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    
+        h1 {
+            color:rgb(40, 59, 165);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            animation: fadeInDown 1.5s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: zoomIn 1.5s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+            color: #333;
+        }
+    
+        th {
+            background-color: #eef5f9;
+            font-weight: bold;
+        }
+    
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideIn 1.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    
+        .search-input {
+            padding: 10px;
+            width: 80%;
+            margin-right: 10px;
+            border-radius: 10px;
+            border: 1px solid #3a6351;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .search-button, .add-button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            animation: bounceIn 1.5s ease;
+        }
+
+        @keyframes bounceIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    
+        .search-button {
+            background-color: #3a6351;
+        }
+    
+        .add-button {
+            background-color: #007bff;
+        }
+    
+        .search-button:hover {
+            background-color:rgb(87, 189, 236);
+            transform: translateY(-2px);
+        }
+    
+        .add-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wellness Transactions</h1>
+ 
+        <!-- Search Form -->
+        <form class="search-form" method="get" action="{% url 'wellnesstracking' %}">
+            <input type="text" name="search" placeholder="Search by category or description..." value="{{ search_query }}" class="search-input">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+ 
+        <!-- Add Transaction Button (redirects to Django admin) -->
+        <button class="add-button" onclick="window.location.href='/admin/myapp/wellnesstransaction/add/'">Add Transaction</button>
+ 
+        <!-- Transactions Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.category }}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.date|date:"Y-m-d" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">No transactions found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/styles.css' %}">
+    <style>
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        }
+        body {
+            background: linear-gradient(to right,rgb(59, 110, 204), #243b55);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: calc(100vh - 20px);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color:rgb(40, 65, 113);
+            font-size: 36px;
+            margin-bottom: 20px;
+            animation: popIn 1s ease-in-out;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color:rgb(59, 107, 211);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            animation: bounceIn 1s ease;
+        }
+        @keyframes bounceIn {
+            from { transform: scale(0.5); }
+            to { transform: scale(1); }
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.1);
+        }
+        .card {
+            display: inline-block;
+            width: 150px;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            animation: fadeInCard 1s ease-in-out;
+        }
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card.red {
+            background: linear-gradient(to bottom right,rgb(15, 55, 147),rgb(27, 36, 167));
+        }
+        .card.orange {
+            background: linear-gradient(to bottom right,rgb(39, 91, 188),rgb(47, 78, 190));
+        }
+        .card.blue {
+            background: linear-gradient(to bottom right, #42a5f5, #1976d2);
+        }
+        .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .card h3 {
+            color: #ffffff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .card p {
+            color: #f0f0f0;
+        }
+        .table-container {
+            width: 90%;
+            margin-top: 20px;
+            background-color: #2e3b4e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideIn 1.5s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #ffffff;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #4c5c73;
+        }
+        th {
+            background-color: #3a4a63;
+        }
+        tr:hover {
+            background-color: #3a4a63;
+        }
+        .table-container h2 {
+            color:rgb(19, 61, 117);
+            font-size: 24px;
+            margin-bottom: 10px;
+            animation: colorChange 1.5s infinite;
+        }
+        @keyframes colorChange {
+            0%, 100% { color:rgb(39, 227, 240); }
+            50% { color:rgb(47, 143, 180); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <div style="margin-bottom: 20px;">
+            <button onclick="window.location.href='http://127.0.0.1:8000/admin/myapp/doctor/add/'">Add Doctor</button>
+            <button onclick="window.location.href='http://127.0.0.1:8000/admin/myapp/patient/add/'">Add Patient</button>
+            <button onclick="window.location.href='http://127.0.0.1:8000/admin/myapp/appointment/add/'">Add Appointment</button>
+        </div>
+        <div>
+            <div class="card red" onclick="window.location.href='http://127.0.0.1:8000/admin/myapp/doctors/'">
+                <h3>{{ total_doctors }}</h3>
+                <p>Total Doctors</p>
+            </div>
+            <div class="card orange" onclick="window.location.href='http://127.0.0.1:8000/admin/myapp/patients/'">
+                <h3>{{ total_patients }}</h3>
+                <p>Total Patients</p>
+            </div>
+            <div class="card blue" onclick="window.location.href='http://127.0.0.1:8000/admin/myapp/appointments/'">
+                <h3>{{ total_appointments }}</h3>
+                <p>Total Appointments</p>
+            </div>
+        </div>
+        <div class="table-container">
+            <h2>Recent Doctors</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                </tr>
+                {% for doctor in recent_doctors %}
+                <tr>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.department }}</td>
+                    <td>{{ doctor.contact }}</td>
+                    <td>{{ doctor.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="table-container">
+            <h2>Recent Patients</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Symptoms</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                </tr>
+                {% for patient in recent_patients %}
+                <tr>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.symptoms }}</td>
+                    <td>{{ patient.contact }}</td>
+                    <td>{{ patient.address }}</td>
+                    <td>{{ patient.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="table-container">
+            <h2>Recent Appointments</h2>
+            <table>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+                {% for appointment in recent_appointments %}
+                <tr>
+                    <td>{{ appointment.patient.name }}</td>
+                    <td>{{ appointment.doctor.name }}</td>
+                    <td>{{ appointment.appointment_date|date:"Y-m-d" }}</td>
+                    <td>{{ appointment.appointment_date|time:"H:i" }}</td>
+                    <td>{{ appointment.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

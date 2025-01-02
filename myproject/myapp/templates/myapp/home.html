@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/home.css' %}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        }
+        body {
+            background: linear-gradient(to right,rgb(197, 172, 172),rgb(103, 132, 175));
+            color: #3a6351;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(to right,rgb(101, 176, 225),rgb(93, 124, 208));
+            color:rgb(0, 0, 0);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .logo h1 {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(45deg,rgb(45, 70, 182),rgb(14, 89, 194),rgb(32, 106, 226),rgb(16, 75, 224));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradient-animation 3s infinite;
+        }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        nav a {
+            color: #ffffff;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+            background: linear-gradient(45deg,rgb(56, 74, 236),rgb(102, 128, 231));
+            padding: 10px 15px;
+            border-radius: 25px 0 25px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        nav a:hover {
+            color: #ffcc66;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+        main h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color:rgb(4, 40, 81);
+        }
+        main h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color:rgb(4, 40, 81);
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .feature-card {
+            background: linear-gradient(to bottom,rgb(64, 127, 235),rgb(64, 130, 196));
+            border: 2px solid rgb(55, 143, 237);
+            border-radius: 25px 0 25px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            height: 350px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .feature-card img {
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        .feature-card p {
+            font-size: 16px;
+            color: #ffffff;
+        }
+        footer {
+            background: linear-gradient(to right,rgb(77, 167, 232),rgb(45, 119, 193));
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'myapp/images/logo.png' %}" alt="Logo">
+            <h1>Smart Health</h1>
+        </div>
+        <nav>
+            {% if is_authenticated %}
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'wellnesstracking' %}">Wellness Tracking</a>
+                <a href="{% url 'healthinsights' %}">Health Insights</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% if is_authenticated %}
+            <h1>Welcome Back, {{ user.get_username }}!</h1>
+            <h2>Explore the features below to make the most of your health journey:</h2><br>
+        {% else %}
+            <h1>Welcome to Smart Health and Wellness Monitoring</h1>
+            <h2>Please log in to access our features and insights.</h2><br>
+        {% endif %}
+        <div class="features">
+            <a href="{% url 'dashboard' %}" class="feature-card">
+                <h3>Dashboard</h3>
+                <img src="{% static 'myapp/images/dashbo.jpg' %}" alt="Dashboard">
+                <p>Manage doctor appointments and access patient details seamlessly in one place.</p>
+            </a>
+            <a href="{% url 'healthinsights' %}" class="feature-card">
+                <h3>Health Insights</h3>
+                <img src="{% static 'myapp/images/healin.jpg' %}" alt="Health Insights">
+                <p>Input health parameters to instantly check your condition and receive personalized recommendations.</p>
+            </a>
+            <a href="{% url 'wellnesstracking' %}" class="feature-card">
+                <h3>Wellness Tracking</h3>
+                <img src="{% static 'myapp/images/welltrac.jpg' %}" alt="Wellness Tracking">
+                <p>Pay your bills and track your expenses with ease.</p>
+            </a>
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 SmartHealth. All Rights Reserved.
+    </footer>
+</body>
+</html>

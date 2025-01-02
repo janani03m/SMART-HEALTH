@@ -1,0 +1,221 @@
+{% load static %} 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Login</title> 
+    <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg,rgb(127, 167, 233) 0%,rgb(30, 121, 177) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            width: 400px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #333333;
+            font-size: 28px;
+            margin-bottom: 25px;
+            position: relative;
+            animation: slideDown 1s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg,rgb(27, 47, 231), #5198df);
+            border-radius: 3px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        input:focus {
+            border-color: #5198df;
+            outline: none;
+            box-shadow: 0 0 10px rgba(9, 67, 126, 0.2);
+        }
+
+        label {
+            position: absolute;
+            left: 12px;
+            top: -10px;
+            background: white;
+            padding: 0 5px;
+            color: #666;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        button {
+            padding: 12px;
+            background: linear-gradient(90deg,rgb(44, 91, 232), #5198df);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: bounceIn 1.5s ease;
+        }
+
+        @keyframes bounceIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        button:hover {
+            background: linear-gradient(90deg, #5198df,rgb(38, 83, 232));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 79, 226, 0.3);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            animation: fadeIn 2s ease;
+        }
+        
+        .form-footer a {
+            color:rgb(22, 140, 208);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-footer a:hover {
+            color: #5198df;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 30px;
+                margin: 15px;
+            }
+        }
+    </style>
+</head> 
+<body> 
+<div class="container">
+    {% if error_message %}
+        <div class="error-message">
+            {{ error_message }}
+        </div>
+    {% endif %} 
+    <form action="" method="POST">
+        {% csrf_token %}
+        <h2>Welcome Back</h2>
+        <p style="text-align: center; color: #666;">Please login to access the application</p>
+        
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username">
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+        </div>
+
+        <button type="submit">Login</button> 
+    </form> 
+    <div class="form-footer"> 
+        <p>Don't have an account? <a href="{% url 'registration' %}">Sign Up</a></p> 
+    </div>
+</div> 
+</body> 
+</html>
