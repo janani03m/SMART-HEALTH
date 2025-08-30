@@ -9,7 +9,6 @@ The Smart Health and Wellness Monitoring System is designed to track real-time h
 ✅ User Authentication – Secure login & registration
 ✅ Real-Time Data Collection – Syncs data from wearable devices (heart rate, steps, calories, etc.)
 ✅ Data Analysis – Provides personalized insights based on user health metrics
-✅ Alerts & Notifications – Sends alerts when abnormal values are detected
 ✅ Goal Tracking – Helps users set and monitor fitness/health goals
 ✅ Dashboard Visualization – Interactive charts & reports for better understanding
 ✅ Admin Panel – Manage users, monitor data, and generate reports
@@ -22,7 +21,6 @@ Backend: Django (REST API & Business logic)
 
 Database: MySQL (User and health data storage)
 
-Wearables/IoT: Health tracking devices (Heart rate sensors, smart bands, etc.)
 
 📂 Project Structure
 Smart-Health-Monitoring/
@@ -38,7 +36,7 @@ Smart-Health-Monitoring/
 
 ⚙️ Installation & Setup
 1️⃣ Clone the Repository
-git clone https://github.com/your-username/smart-health-monitoring.git
+git clone https://github.com/janai03m/smart-health.git
 cd smart-health-monitoring
 
 2️⃣ Backend Setup (Django + MySQL)
@@ -73,11 +71,6 @@ Support for additional wearable APIs (Fitbit, Apple Watch, Google Fit)
 
 Personalized diet & workout recommendations
 
-👨‍💻 Contributors
-
-[Your Name] – Project Lead & Developer
-
-Team Members – (Add names/roles here)
 
 📜 License
 
